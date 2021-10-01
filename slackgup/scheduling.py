@@ -64,7 +64,7 @@ import datetime as dt
 from os.path import expanduser
 from dm import BssApsDbApi
 
-from dmagic import log
+from slackgup import log
 
 
 __author__ = "Francesco De Carlo"
@@ -147,7 +147,6 @@ def get_current_proposal():
     dict-like object with information for current proposal
     """
     proposals = dm_api.listProposals()
-    # log.info(proposals)
     # time_now = dt.datetime.now(pytz.utc)
     time_now = dt.datetime(2021, 11, 6, 8, 15, 12, 0, pytz.UTC)
     for prop in proposals:

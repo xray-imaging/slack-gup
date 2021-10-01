@@ -1,3 +1,5 @@
+decorator
+pytz
 python-dotenv
 slack-bolt
 pyepics

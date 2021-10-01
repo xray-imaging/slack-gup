@@ -12,7 +12,7 @@ setup(
     url='https://github.com/xray-imaging/slackgup',
     packages=find_packages(),
     include_package_data = True,
-    scripts=['bin/slackgup'],
+    scripts=['bin/slack'],
     description='cli to create slack channel as GUP-# and share it with the users listed in the GUP',
     zip_safe=False,
 )
