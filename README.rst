@@ -8,10 +8,44 @@ Creates slack channel using General User Proposal (GUP) number (GUP-#) and invit
 Usage
 =====
 
+To see the information of the currently running experiment
 ::
 
-    $ slackgup
+    $ slack show
+	2021-10-01 11:37:27,486 - GUP proposal_id: 72873
+	2021-10-01 11:37:27,720 - Added yingh16@uci.edu to the e-mail list.
+	2021-10-01 11:37:27,721 - Added satjarit@email.sc.edu to the e-mail list.
+	2021-10-01 11:37:27,721 - Added dskulkar@uci.edu to the e-mail list.
+	2021-10-01 11:37:27,721 - Added iryna.zenyuk@tufts.edu to the e-mail list.
+	2021-10-01 11:37:27,721 - General
+	2021-10-01 11:37:27,721 -   config           /home/beams/USER2BMB/slack.conf
+	2021-10-01 11:37:27,721 -   verbose          True
+	2021-10-01 11:37:27,721 - Settings
+	2021-10-01 11:37:27,721 -   testing          0.0
+	2021-10-01 11:37:27,721 - Contacts
+	2021-10-01 11:37:27,721 -   primary_beamline_contact_email akastengren@anl.gov
+	2021-10-01 11:37:27,721 -   secondary_beamline_contact_email decarlo@anl.gov
 
+To create a slack channel called gup_72873 and invite all users listed in the proposal
+
+::
+
+    $ slack gup
+	2021-10-01 11:34:07,402 - GUP proposal_id: 72873
+	2021-10-01 11:34:07,614 - Added yingh16@uci.edu to the e-mail list.
+	2021-10-01 11:34:07,614 - Added satjarit@email.sc.edu to the e-mail list.
+	2021-10-01 11:34:07,614 - Added dskulkar@uci.edu to the e-mail list.
+	2021-10-01 11:34:07,614 - Added iryna.zenyuk@tufts.edu to the e-mail list.
+	gup_72873
+	2021-10-01 11:34:07,922 - Slack result {'ok': True, 'channel': {'id': 'C02H2TKMEV6', 'name': 	'gup_72873', 'is_channel': True, 'is_group': False, 'is_im': False, 'created': 1633106047, 	'is_archived': False, 'is_general': False, 'unlinked': 0, 'name_normalized': 'gup_72873', 'is_shared': 	False, 'parent_conversation': None, 'creator': 'U02FHG33693', 'is_ext_shared': False, 'is_org_shared': 	False, 'shared_team_ids': ['T024R3UJBAN'], 'pending_shared': [], 'pending_connected_team_ids': [], 	'is_pending_ext_shared': False, 'is_member': True, 'is_private': False, 'is_mpim': False, 'last_read': 	'0000000000.000000', 'topic': {'value': '', 'creator': '', 'last_set': 0}, 'purpose': {'value': '', 	'creator': '', 'last_set': 0}, 'previous_names': [], 'priority': 0}}
+	2021-10-01 11:34:07,922 - General
+	2021-10-01 11:34:07,922 -   config           /home/beams/USER2BMB/slack.conf
+	2021-10-01 11:34:07,922 -   verbose          True
+	2021-10-01 11:34:07,923 - Settings
+	2021-10-01 11:34:07,923 -   testing          0.0
+	2021-10-01 11:34:07,923 - Contacts
+	2021-10-01 11:34:07,923 -   primary_beamline_contact_email akastengren@anl.gov
+	2021-10-01 11:34:07,923 -   secondary_beamline_contact_email decarlo@anl.gov
 
 Installation
 ============
