@@ -1,0 +1,137 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+Module to create a slack channel named GUP-# retrieving the information from the scheduling system
+"""
+import os
+import sys
+import time
+import datetime
+import argparse
+import pathlib
+import datetime as dt
+import pytz 
+
+from dotenv import load_dotenv
+from slack_sdk import WebClient
+from slack_sdk.errors import SlackApiError
+
+from slackgup import log
+from slackgup import config
+from slackgup import scheduling
+ 
+
+def init(args):
+    if not os.path.exists(str(args.config)):
+        config.write(str(args.config))
+    else:
+        raise RuntimeError("{0} already exists".format(args.config))
+
+def slack_gup(args):
+    # Get proposal and user information from the scheduling system
+    proposal_id = scheduling.get_current_proposal_id()
+    log.info('GUP proposal_id: %s' % proposal_id)
+    emails = scheduling.get_current_emails(exclude_pi=False)
+    emails.append(args.primary_beamline_contact_email)
+    emails.append(args.secondary_beamline_contact_email)
+
+    # Set bot tokens as environment values
+    env_path = os.path.join(str(pathlib.Path.home()), '.slackenv')
+    load_dotenv(dotenv_path=env_path)
+
+    bot_token = os.environ.get("BOT_TOKEN")
+
+    channel_name = 'gup_' + str(proposal_id)
+    client = WebClient(token=bot_token)
+    try:
+        # Call the conversations.create method using the WebClient
+        # conversations_create requires the channels:manage bot scope
+        result = client.conversations_create(
+            # The name of the conversation
+            name=channel_name
+        )
+        # Log the result which includes information like the ID of the conversation
+        log.info('Slack result %s' % result)
+
+    except SlackApiError as e:
+        log.error("Error creating conversation: {}".format(e))
+
+def show(args):
+
+    proposal_id = scheduling.get_current_proposal_id()
+    log.info('GUP proposal_id: %s' % proposal_id)
+    emails = scheduling.get_current_emails(exclude_pi=False)
+    emails.append(args.primary_beamline_contact_email)
+    emails.append(args.secondary_beamline_contact_email)
+
+def main():
+    home = os.path.expanduser("~")
+    logs_home = home + '/logs/'
+
+    # make sure logs directory exists
+    if not os.path.exists(logs_home):
+        os.makedirs(logs_home)
+
+    lfname = logs_home + 'dmagic_' + datetime.datetime.strftime(datetime.datetime.now(), "%Y-%m-%d_%H:%M:%S") + '.log'
+    log.setup_custom_logger(lfname)
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--config', **config.SECTIONS['general']['config'])
+    show_params = config.SLACKGUP_PARAMS
+    tag_params = config.SLACKGUP_PARAMS
+    slack_params = config.SLACKGUP_PARAMS
+
+    cmd_parsers = [
+        ('init',        init,           (),                "Create configuration file"),
+        ('show',        show,           show_params,       "Show user and experiment info from the APS schedule"),
+        ('gup',         slack_gup,      slack_params,        "Create a slack channel using the current GUP# and share it with all users listed in the proposal"),
+    ]
+
+    subparsers = parser.add_subparsers(title="Commands", metavar='')
+
+    for cmd, func, sections, text in cmd_parsers:
+        cmd_params = config.Params(sections=sections)
+        cmd_parser = subparsers.add_parser(cmd, help=text, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        cmd_parser = cmd_params.add_arguments(cmd_parser)
+        cmd_parser.set_defaults(_func=func)
+
+    args = config.parse_known_args(parser, subparser=True)
+    # args.proposal_id = scheduling.get_current_proposal_id(args)
+
+    # return
+    try:
+        # load args from default (config.py) if not changed
+        args._func(args)
+        config.log_values(args)
+        # undate globus.config file
+        sections = config.SLACKGUP_PARAMS
+        config.write(args.config, args=args, sections=sections)
+    except RuntimeError as e:
+        log.error(str(e))
+        sys.exit(1)
+
+if __name__ == '__main__':
+    main()
+
+
+    #     users = scheduling.get_current_users(args)
+    #     emails = scheduling.get_current_emails(users, exclude_pi=False)
+    #     emails.append(args.primary_beamline_contact_email)
+    #     emails.append(args.secondary_beamline_contact_email)
+    #     for email in emails:
+    #         args.pi_email = email
+    #         log.warning('Sharing %s%s with %s' % (args.globus_server_top_dir, new_dir, args.pi_email))
+    #         globus.share_globus_dir(args, ac, tc)
+    # else:
+    #     log.error("%s is not a supported globus server" % args.globus_server_name)
+
+    # def yes_or_no(question):
+    # answer = str(input(question + " (Y/N): ")).lower().strip()
+    # while not(answer == "y" or answer == "yes" or answer == "n" or answer == "no"):
+    #     log.warning("Input yes or no")
+    #     answer = str(input(question + "(Y/N): ")).lower().strip()
+    # if answer[0] == "y":
+    #     return True
+    # else:
+    #     return False
