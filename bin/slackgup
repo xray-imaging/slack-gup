@@ -1,0 +1,75 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+Module to create a slack channel named GUP-# retrieving the information from the scheduling system
+"""
+import os
+import sys
+import time
+import datetime
+import argparse
+import pathlib
+import datetime as dt
+import pytz 
+
+from dotenv import load_dotenv
+from slack_sdk import WebClient
+from slack_sdk.errors import SlackApiError
+
+from slackgup import scheduling
+from slackgup import log
+ 
+def slack():
+    # Set bot tokens as environment values
+    env_path = os.path.join(str(pathlib.Path.home()), '.slackenv')
+    load_dotenv(dotenv_path=env_path)
+
+    bot_token = os.environ.get("BOT_TOKEN")
+
+    client = WebClient(token=bot_token)
+    try:
+        # Call the conversations.create method using the WebClient
+        # conversations_create requires the channels:manage bot scope
+        result = client.conversations_create(
+            # The name of the conversation
+            name='d4564656'
+        )
+        # Log the result which includes information like the ID of the conversation
+        log.info(result)
+
+    except SlackApiError as e:
+        log.error("Error creating conversation: {}".format(e))
+
+def main():
+
+    proposal_id = get_current_proposal_id()
+    log.info(proposal_id)
+    user_emails = get_current_emails()
+    log.info(user_emails)
+    # slack()
+
+if __name__ == '__main__':
+    main()
+
+
+    #     users = scheduling.get_current_users(args)
+    #     emails = scheduling.get_current_emails(users, exclude_pi=False)
+    #     emails.append(args.primary_beamline_contact_email)
+    #     emails.append(args.secondary_beamline_contact_email)
+    #     for email in emails:
+    #         args.pi_email = email
+    #         log.warning('Sharing %s%s with %s' % (args.globus_server_top_dir, new_dir, args.pi_email))
+    #         globus.share_globus_dir(args, ac, tc)
+    # else:
+    #     log.error("%s is not a supported globus server" % args.globus_server_name)
+
+    # def yes_or_no(question):
+    # answer = str(input(question + " (Y/N): ")).lower().strip()
+    # while not(answer == "y" or answer == "yes" or answer == "n" or answer == "no"):
+    #     log.warning("Input yes or no")
+    #     answer = str(input(question + "(Y/N): ")).lower().strip()
+    # if answer[0] == "y":
+    #     return True
+    # else:
+    #     return False
