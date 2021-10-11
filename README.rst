@@ -47,8 +47,19 @@ To create a slack channel called gup_72873 and invite all users listed in the pr
     2021-10-11 17:27:30,172 -   primary_beamline_contact_email decarlo@anl.gov
     2021-10-11 17:27:30,172 -   secondary_beamline_contact_email akastengren@anl.gov
 
-To share the newly created slack channel with the user listed in the proposal 
+To share the newly created slack channel with the user listed in the proposal:
 
+1. Select the newlly created channel: 
+
+.. image:: docs/source/img/add_people_0.png
+    :width: 40%
+    :align: center
+
+2. Share the channel with users listed in the proposal by copy/paste their email address in the invite box:
+
+.. image:: docs/source/img/add_people_1.png
+    :width: 40%
+    :align: center
 
 for help::
 
@@ -122,7 +133,6 @@ Features and functionalities
 ----------------------------
 
 Add features and functionalities (enable all those that are green)
-
 
 .. image:: docs/source/img/features_functionalities.png
     :width: 40%
