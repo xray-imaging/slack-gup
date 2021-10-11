@@ -53,9 +53,72 @@ def slack_gup(args):
         )
         # Log the result which includes information like the ID of the conversation
         log.info('Slack result %s' % result)
-
     except SlackApiError as e:
         log.error("Error creating conversation: {}".format(e))
+
+    log.warning("Please invite to the slack channel %s these users %s" % (channel_name, emails))
+    
+    # WARNING: options below are only for Business+ and above. 
+
+    # Slack provides a couple of different ways to programmatically invite and provision users to a workspace, 
+    # however these options are not available on all plans.
+
+    # - The admin.users.invite method you mentioned and Admin API requires an Enterprise Grid plan 
+    # (https://api.slack.com/enterprise/managing), which is why you are running into the error message you captured 
+    # in your screenshot.
+
+    # - The SCIM API (https://api.slack.com/scim) can be used by workspaces on our Business+ plan and above to 
+    # help provision/de-provision, manage user accounts and groups. The /Users endpoint accepts a POST request to 
+    # create a new user on a Workspace - https://api.slack.com/scim#post-users.
+
+    # - Aside from this, there isn't another API or programmatic way to invite users to a Slack Workspace on 
+    # our Free or Pro plans, so I'm afraid we do not have an API for your specific use case. Apologies for this, 
+    # Francesco. You can confirm which plan you're currently on by looking for the Current subscription 
+    # label here: https://my.slack.com/plans
+
+
+    # try:
+    #     # Call admin_users_invite method
+    #     # admin_users_invite requires the admin.invites:write scope added under
+    #     # the User Token Scopes
+    #     result = client.admin_users_invite(
+    #         token=bot_token, 
+    #         channel_ids=channel_name, 
+    #         email='decarlof@gmail.com', 
+    #         team_id=''
+    #     )
+    #     # Log the result which includes information like the ID of the conversation
+    #     log.info('Slack result %s' % result)
+    # except SlackApiError as e:
+    #     log.error("Error inviting users to the channel: {}".format(e))
+
+    # try:
+    #     # Call conversations_invite
+    #     # admin_users_invite requires the admin.invites:write scope added under
+    #     # the User Token Scopes
+    #     result = client.conversations_invite(
+    #         token=bot_token, 
+    #         channel='C02H3BP1LRG',
+    #         users='U024RA4D0UB' 
+    #     )
+    #     # Log the result which includes information like the ID of the conversation
+    #     log.info('Slack result %s' % result)
+    # except SlackApiError as e:
+    #     log.error("Error inviting users to a conversation: {}".format(e))
+
+    # try:
+    #     # Call users_lookupByEmail
+    #     # admin_users_invite requires the users:read.eamil scope added under
+    #     # the Bot Token Scopes
+    #     result = client.users_lookupByEmail(
+    #         token=bot_token, 
+    #         email='decarlof@gmail.com',
+    #     )
+    #     # Log the result which includes information like the ID of the conversation
+    #     log.info('Slack result %s' % result)
+    # except SlackApiError as e:
+    #     log.error("Error users_lookupByEmail: {}".format(e))
+
 
 def show(args):
 

@@ -31,21 +31,55 @@ To create a slack channel called gup_72873 and invite all users listed in the pr
 ::
 
     $ slack gup
-	2021-10-01 11:34:07,402 - GUP proposal_id: 72873
-	2021-10-01 11:34:07,614 - Added yingh16@uci.edu to the e-mail list.
-	2021-10-01 11:34:07,614 - Added satjarit@email.sc.edu to the e-mail list.
-	2021-10-01 11:34:07,614 - Added dskulkar@uci.edu to the e-mail list.
-	2021-10-01 11:34:07,614 - Added iryna.zenyuk@tufts.edu to the e-mail list.
-	gup_72873
-	2021-10-01 11:34:07,922 - Slack result {'ok': True, 'channel': {'id': 'C02H2TKMEV6', 'name': 	'gup_72873', 'is_channel': True, 'is_group': False, 'is_im': False, 'created': 1633106047, 	'is_archived': False, 'is_general': False, 'unlinked': 0, 'name_normalized': 'gup_72873', 'is_shared': 	False, 'parent_conversation': None, 'creator': 'U02FHG33693', 'is_ext_shared': False, 'is_org_shared': 	False, 'shared_team_ids': ['T024R3UJBAN'], 'pending_shared': [], 'pending_connected_team_ids': [], 	'is_pending_ext_shared': False, 'is_member': True, 'is_private': False, 'is_mpim': False, 'last_read': 	'0000000000.000000', 'topic': {'value': '', 'creator': '', 'last_set': 0}, 'purpose': {'value': '', 	'creator': '', 'last_set': 0}, 'previous_names': [], 'priority': 0}}
-	2021-10-01 11:34:07,922 - General
-	2021-10-01 11:34:07,922 -   config           /home/beams/USER2BMB/slack.conf
-	2021-10-01 11:34:07,922 -   verbose          True
-	2021-10-01 11:34:07,923 - Settings
-	2021-10-01 11:34:07,923 -   testing          0.0
-	2021-10-01 11:34:07,923 - Contacts
-	2021-10-01 11:34:07,923 -   primary_beamline_contact_email akastengren@anl.gov
-	2021-10-01 11:34:07,923 -   secondary_beamline_contact_email decarlo@anl.gov
+    2021-10-11 17:27:29,695 - GUP proposal_id: 72873
+    2021-10-11 17:27:29,895 - Added yingh16@uci.edu to the e-mail list.
+    2021-10-11 17:27:29,895 - Added satjarit@email.sc.edu to the e-mail list.
+    2021-10-11 17:27:29,895 - Added dskulkar@uci.edu to the e-mail list.
+    2021-10-11 17:27:29,895 - Added iryna.zenyuk@tufts.edu to the e-mail list.
+    2021-10-11 17:27:30,171 - Slack result {'ok': True, 'channel': {'id': 'C02HE6C538B', 'name': 'gup_72873', 'is_channel': True, 'is_group': False, 'is_im': False, 'is_mpim': False, 'is_private': False, 'created': 1633991250, 'is_archived': False, 'is_general': False, 'unlinked': 0, 'name_normalized': 'gup_72873', 'is_shared': False, 'is_org_shared': False, 'is_pending_ext_shared': False, 'pending_shared': [], 'parent_conversation': None, 'creator': 'U02FHG33693', 'is_ext_shared': False, 'shared_team_ids': ['T024R3UJBAN'], 'pending_connected_team_ids': [], 'is_member': True, 'last_read': '0000000000.000000', 'topic': {'value': '', 'creator': '', 'last_set': 0}, 'purpose': {'value': '', 'creator': '', 'last_set': 0}, 'previous_names': [], 'priority': 0}}
+    2021-10-11 17:27:30,171 - Please invite to the slack channel gup_72873 these users ['yingh16@uci.edu', 'satjarit@email.sc.edu', 'dskulkar@uci.edu', 'iryna.zenyuk@tufts.edu', 'decarlo@anl.gov', 'akastengren@anl.gov']
+    2021-10-11 17:27:30,171 - General
+    2021-10-11 17:27:30,172 -   config           /home/beams/USER2BMB/slack.conf
+    2021-10-11 17:27:30,172 -   verbose          True
+    2021-10-11 17:27:30,172 - Settings
+    2021-10-11 17:27:30,172 -   testing          0.0
+    2021-10-11 17:27:30,172 - Contacts
+    2021-10-11 17:27:30,172 -   primary_beamline_contact_email decarlo@anl.gov
+    2021-10-11 17:27:30,172 -   secondary_beamline_contact_email akastengren@anl.gov
+
+To share the newly created slack channel with the user listed in the proposal 
+
+
+for help::
+
+	slack -h
+	usage: slack [-h] [--config FILE]  ...
+
+	optional arguments:
+	  -h, --help     show this help message and exit
+	  --config FILE  File name of configuration
+
+	Commands:
+	  
+	    init         Create configuration file
+	    show         Show user and experiment info from the APS schedule
+	    gup          Create a slack channel using the current GUP# and share it with all users listed in the proposal
+
+::
+
+	slack gup -h
+	usage: slack gup [-h] [--testing TESTING] [--primary-beamline-contact-email FILE] [--secondary-beamline-contact-email FILE]
+	                 [--config FILE] [--verbose]
+
+	optional arguments:
+	  -h, --help            show this help message and exit
+	  --testing TESTING     Number of +/- number days for the current date. Used for testing (default: 0)
+	  --primary-beamline-contact-email FILE
+	                        Beamline scientist email (default: decarlo@anl.gov)
+	  --secondary-beamline-contact-email FILE
+	                        Beamline scientist email (default: akastengren@anl.gov)
+	  --config FILE         File name of configuration (default: /home/beams/USER2BMB/slack.conf)
+	  --verbose             Verbose output (default: True)
 
 Installation
 ============
@@ -142,6 +176,4 @@ In a prepared virtualenv or as root for system-wide installation clone the
 Dependencies
 ============
 
-Install the following package::
-
-    $ pip ...
+Install the package listed in the `requirements <https://github.com/xray-imaging/slack-gup/blob/main/requirements.txt>`_ file. 
