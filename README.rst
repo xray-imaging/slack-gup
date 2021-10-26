@@ -176,14 +176,36 @@ Finally you need invite the Slack app to a specific slack channel:
 Installing from source
 ======================
 
-In a prepared virtualenv or as root for system-wide installation clone the 
+In a prepared `anaconda <https://www.anaconda.com/products/individual>`_ python virtualenv or as root for system-wide installation clone  
 `slackaps <https://github.com/xray-imaging/slack-aps.git>`_ from `GitHub <https://github.com>`_ repository
 
 ::
 
     $ git clone https://github.com/xray-imaging/slack-aps.git slack-aps
+    $ cd slack-aps
+    $ python setup.py install
 
 Dependencies
 ============
 
+python
+------
+
 Install the package listed in the `requirements <https://github.com/xray-imaging/slack-gup/blob/main/requirements.txt>`_ file. 
+
+data management
+---------------
+
+To access the APS scheduing system install::
+
+	$ conda install -c aps-anl-tag aps-dm-api='5.0.3=py39_1'
+
+add in your .bashrc::
+
+	export DM_APS_DB_WEB_SERVICE_URL=https://xraydtn02.xray.aps.anl.gov:11236 
+
+To test the access to the APS scheduling system::
+
+	python -c "from dm.aps_db_web_service.api.esafApsDbApi import EsafApsDbApi; api = EsafApsDbApi();print(api.listEsafs(sector='32', 	year=2021))"
+
+
