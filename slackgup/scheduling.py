@@ -78,7 +78,25 @@ __all__ = ['get_current_users',
 
 dm_api = BssApsDbApi()
 
-def get_current_emails(exclude_pi=True):
+def get_current_pi(args):
+    """
+    Get information about the PI for the current experiment.
+    
+    Returns
+    ------------
+    dictionary-like object containing information for PI
+    """
+    users = get_current_users(args)
+    if not users:
+        return None
+    for u in users:
+        if 'piFlag' in u.keys():
+            if u['piFlag'] == 'Y':
+                return u
+    #If we are here, nothing was listed as PI.  Use first user
+    return users[0]
+
+def get_current_emails(args, exclude_pi=True):
     """
     Find user's emails currently running at beamline
      
@@ -93,7 +111,7 @@ def get_current_emails(exclude_pi=True):
     """
     emails = []
     
-    users = get_current_users()
+    users = get_current_users(args)
     if not users:
         return None
 
@@ -108,7 +126,7 @@ def get_current_emails(exclude_pi=True):
                     .format(u['badge'], u['firstName'], u['lastName'], u['institution']))
     return emails
 
-def get_current_users():
+def get_current_users(args):
     """
     Get users running at beamline currently
     
@@ -116,13 +134,29 @@ def get_current_users():
     -------
     users : dictionary-like object containing user information      
     """
-    proposal = get_current_proposal()
+    proposal = get_current_proposal(args)
     if not proposal:
         log.warning("No current valid proposal")
         return None
     return proposal['experimenters']
 
-def get_current_proposal_id():
+
+def get_proposal_starting_date(args):
+    """
+    Get the proposal starting date for the current proposal.
+
+    Returns
+    ---------
+    proposal starting date as a string
+    """
+    proposal = get_current_proposal(args)
+    if not proposal:
+        log.info("No current valid proposal")
+        return None
+
+    return str(dt.datetime.fromisoformat((proposal['startTime'])).strftime("%Y_%m_%d"))
+
+def get_current_proposal_id(args):
     """
     Get the proposal id for the current proposal.
 
@@ -130,14 +164,13 @@ def get_current_proposal_id():
     ---------
     proposal ID as an int
     """
-    proposal = get_current_proposal()
-    # log.info(proposal)
+    proposal = get_current_proposal(args)
     if not proposal:
         log.info("No current valid proposal")
         return None
-    return str(get_current_proposal()['id'])
+    return str(get_current_proposal(args)['id'])
 
-def get_current_proposal():
+def get_current_proposal(args):
     """
     Get a dictionary-like object with current proposal information.
     If no proposal is active, return None
@@ -147,8 +180,8 @@ def get_current_proposal():
     dict-like object with information for current proposal
     """
     proposals = dm_api.listProposals()
-    # time_now = dt.datetime.now(pytz.utc)
-    time_now = dt.datetime(2021, 11, 6, 8, 15, 12, 0, pytz.UTC)
+
+    time_now = dt.datetime.now(pytz.utc) + dt.timedelta(args.set)
     for prop in proposals:
         for i in range(len(prop['activities'])):
             prop_start = dt.datetime.fromisoformat(prop['activities'][i]['startTime'])

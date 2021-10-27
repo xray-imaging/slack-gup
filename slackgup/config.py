@@ -23,10 +23,10 @@ SECTIONS['general'] = {
         'action': 'store_true'}}
 
 SECTIONS['settings'] = {
-    'testing': {     
+    'set': {     
         'type': float,
         'default': 0,
-        'help': "Number of +/- number days for the current date. Used for testing"},
+        'help': "Number of +/- number days for the current date. Used for setting a channel for past/future user groups"},
     }
 
 SECTIONS['contacts'] = {
@@ -43,7 +43,7 @@ SECTIONS['contacts'] = {
     } 
 
 SLACKGUP_PARAMS = ('settings', 'contacts')
-NICE_NAMES = ('General', 'Settings', "Contacts")
+NICE_NAMES = ('General', 'Settings', "Beamline contacts")
 
 def get_config_name():
     """Get the command line --config option."""
