@@ -5,3 +5,4 @@ pyepics
 python-dotenv
 slack-bolt
 pathlib
+conda install -c aps-anl-tag aps-dm-api='5.0.3=py39_1'
