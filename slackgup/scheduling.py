@@ -113,6 +113,7 @@ def get_current_emails(args, exclude_pi=True):
     
     users = get_current_users(args)
     if not users:
+        log.warning("No current valid users")
         return None
 
     for u in users:
@@ -124,6 +125,7 @@ def get_current_emails(args, exclude_pi=True):
         else:            
             log.info("    Missing e-mail for badge {0:6d}, {1:s} {2:s}, institution {3:s}"
                     .format(u['badge'], u['firstName'], u['lastName'], u['institution']))
+    log.info("Found valid emails")
     return emails
 
 def get_current_users(args):
@@ -138,6 +140,7 @@ def get_current_users(args):
     if not proposal:
         log.warning("No current valid proposal")
         return None
+    log.info("Found valid experimenters")
     return proposal['experimenters']
 
 
@@ -151,9 +154,9 @@ def get_proposal_starting_date(args):
     """
     proposal = get_current_proposal(args)
     if not proposal:
-        log.info("No current valid proposal")
+        log.error("No current valid proposal")
         return None
-
+    log.info("Found valid proposal start time")
     return str(dt.datetime.fromisoformat((proposal['startTime'])).strftime("%Y_%m_%d"))
 
 def get_current_proposal_id(args):
@@ -166,8 +169,9 @@ def get_current_proposal_id(args):
     """
     proposal = get_current_proposal(args)
     if not proposal:
-        log.info("No current valid proposal")
+        log.error("No current valid proposal")
         return None
+    log.info("Found valid proposal id")
     return str(get_current_proposal(args)['id'])
 
 def get_current_proposal(args):
@@ -182,6 +186,11 @@ def get_current_proposal(args):
     proposals = dm_api.listProposals()
 
     time_now = dt.datetime.now(pytz.utc) + dt.timedelta(args.set)
+
+    if (args.set == 0):
+        log.info('%s' % time_now)
+    else:
+        log.warning('Selected date is %s. This is %f days from now. Use --set 0 for  current proposal' % (time_now, args.set))
     for prop in proposals:
         for i in range(len(prop['activities'])):
             prop_start = dt.datetime.fromisoformat(prop['activities'][i]['startTime'])

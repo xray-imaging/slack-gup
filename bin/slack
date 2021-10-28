@@ -146,10 +146,14 @@ def slack_gup(args):
 def show(args):
 
     proposal_id = scheduling.get_current_proposal_id(args)
-    log.info('GUP proposal_id: %s' % proposal_id)
-    emails = scheduling.get_current_emails(args, exclude_pi=False)
-    emails.append(args.primary_beamline_contact_email)
-    emails.append(args.secondary_beamline_contact_email)
+    if proposal_id != None:
+        log.info('GUP proposal_id: %s' % proposal_id)
+        emails = scheduling.get_current_emails(args, exclude_pi=False)
+        emails.append(args.primary_beamline_contact_email)
+        emails.append(args.secondary_beamline_contact_email)
+    else:
+        log.error("There is not a valid proposal in the selected date")
+
 
 def main():
     home = os.path.expanduser("~")
