@@ -71,6 +71,7 @@ def init(args):
 def create_channel_name(args):
 
     channel_name = None
+    emails = []
     proposal_id = scheduling.get_current_proposal_id(args)
     if proposal_id != None:
         log.info('GUP proposal_id: %s' % proposal_id)
