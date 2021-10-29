@@ -1,17 +1,58 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# #########################################################################
+# Copyright (c) 2021, UChicago Argonne, LLC. All rights reserved.         #
+#                                                                         #
+# Copyright 2021. UChicago Argonne, LLC. This software was produced       #
+# under U.S. Government contract DE-AC02-06CH11357 for Argonne National   #
+# Laboratory (ANL), which is operated by UChicago Argonne, LLC for the    #
+# U.S. Department of Energy. The U.S. Government has rights to use,       #
+# reproduce, and distribute this software.  NEITHER THE GOVERNMENT NOR    #
+# UChicago Argonne, LLC MAKES ANY WARRANTY, EXPRESS OR IMPLIED, OR        #
+# ASSUMES ANY LIABILITY FOR THE USE OF THIS SOFTWARE.  If software is     #
+# modified to produce derivative works, such modified software should     #
+# be clearly marked, so as not to confuse it with the version available   #
+# from ANL.                                                               #
+#                                                                         #
+# Additionally, redistribution and use in source and binary forms, with   #
+# or without modification, are permitted provided that the following      #
+# conditions are met:                                                     #
+#                                                                         #
+#     * Redistributions of source code must retain the above copyright    #
+#       notice, this list of conditions and the following disclaimer.     #
+#                                                                         #
+#     * Redistributions in binary form must reproduce the above copyright #
+#       notice, this list of conditions and the following disclaimer in   #
+#       the documentation and/or other materials provided with the        #
+#       distribution.                                                     #
+#                                                                         #
+#     * Neither the name of UChicago Argonne, LLC, Argonne National       #
+#       Laboratory, ANL, the U.S. Government, nor the names of its        #
+#       contributors may be used to endorse or promote products derived   #
+#       from this software without specific prior written permission.     #
+#                                                                         #
+# THIS SOFTWARE IS PROVIDED BY UChicago Argonne, LLC AND CONTRIBUTORS     #
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT       #
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS       #f
+# FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL UChicago     #
+# Argonne, LLC OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,        #
+# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,    #
+# BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;        #
+# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER        #
+# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT      #
+# LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN       #
+# ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE         #
+# POSSIBILITY OF SUCH DAMAGE.                                             #
+# #########################################################################
 """
 Module to create a slack channel named GUP-# retrieving the information from the scheduling system
 """
 import os
 import sys
-import time
 import datetime
 import argparse
 import pathlib
-import datetime as dt
-import pytz 
 
 from dotenv import load_dotenv
 from slack_sdk import WebClient
@@ -20,7 +61,6 @@ from slack_sdk.errors import SlackApiError
 from slackgup import log
 from slackgup import config
 from slackgup import scheduling
- 
 
 def init(args):
     if not os.path.exists(str(args.config)):
@@ -28,45 +68,50 @@ def init(args):
     else:
         raise RuntimeError("{0} already exists".format(args.config))
 
-def slack_gup(args):
-    # Get proposal and user information from the scheduling system
-    proposal_starting_date = scheduling.get_proposal_starting_date(args)
-    log.info('Proposal starting date: %s' % proposal_starting_date)
-    if proposal_starting_date != None:
+def create_channel_name(args):
+
+    channel_name = None
+    emails = []
+    proposal_id = scheduling.get_current_proposal_id(args)
+    if proposal_id != None:
+        log.info('GUP proposal_id: %s' % proposal_id)
+        proposal_starting_date = scheduling.get_proposal_starting_date(args)
+        log.info('Proposal starting date: %s' % proposal_starting_date)
         proposal_pi = scheduling.get_current_pi(args)['lastName'].lower()
         log.info('Proposal PI: %s' % proposal_pi)
-        proposal_id = scheduling.get_current_proposal_id(args)
-        log.info('GUP proposal_id: %s' % proposal_id)
-
         emails = scheduling.get_current_emails(args, exclude_pi=False)
         emails.append(args.primary_beamline_contact_email)
         emails.append(args.secondary_beamline_contact_email)
-
-
-        # Set bot tokens as environment values
-        env_path = os.path.join(str(pathlib.Path.home()), '.slackenv')
-        load_dotenv(dotenv_path=env_path)
-
-        bot_token = os.environ.get("BOT_TOKEN")
-        channel_name = proposal_starting_date + '_' + proposal_pi + '_gup_' + proposal_id
-        client = WebClient(token=bot_token)
-        try:
-            # Call the conversations.create method using the WebClient
-            # conversations_create requires the channels:manage bot scope
-            result = client.conversations_create(
-                # The name of the conversation
-                name=channel_name
-            )
-            # Log the result which includes information like the ID of the conversation
-            # uncomment for debug info only
-            # log.info('Slack result %s' % result)
-            log.warning('Created slack channel: %s' % result['channel']['name'])
-            log.warning("Please invite to the slack channel %s these users %s" % (channel_name, emails))
-
-        except SlackApiError as e:
-            log.error("Error creating conversation: {}".format(e))
+        if (args.beamline == 'None'):
+            channel_name = proposal_starting_date + '_' + proposal_pi + '_gup_' + proposal_id
+        else:
+            channel_name = args.beamline + '_' + proposal_starting_date + '_' + proposal_pi + '_gup_' + proposal_id
     else:
-        log.error("There is not a valid proposal in the selected date")
+        log.error("There is not a valid proposal on the selected date")
+
+    return channel_name, emails
+
+def slack_gup(args):
+
+    channel_name, emails = create_channel_name(args)
+    # Set bot tokens as environment values
+    env_path = os.path.join(str(pathlib.Path.home()), '.slackenv')
+    load_dotenv(dotenv_path=env_path)
+    bot_token = os.environ.get("BOT_TOKEN")
+    client = WebClient(token=bot_token)
+    try:
+        # Call the conversations.create method using the WebClient
+        # conversations_create requires the channels:manage bot scope
+        result = client.conversations_create(
+            # The name of the conversation
+            name=channel_name
+        )
+        log.warning('Created slack channel: %s' % result['channel']['name'])
+        log.warning("Please invite to the slack channel %s these users %s" % (channel_name, emails))
+
+    except SlackApiError as e:
+        log.error("Error creating conversation: {}".format(e))
+
     
     # WARNING: options below are only for Business+ and above. 
 
@@ -142,18 +187,9 @@ def slack_gup(args):
     # except SlackApiError as e:
     #     log.error("Error users_lookupByEmail: {}".format(e))
 
-
 def show(args):
-
-    proposal_id = scheduling.get_current_proposal_id(args)
-    if proposal_id != None:
-        log.info('GUP proposal_id: %s' % proposal_id)
-        emails = scheduling.get_current_emails(args, exclude_pi=False)
-        emails.append(args.primary_beamline_contact_email)
-        emails.append(args.secondary_beamline_contact_email)
-    else:
-        log.error("There is not a valid proposal in the selected date")
-
+    channel_name, emails = create_channel_name(args)
+    log.warning('To create %s run slack gup.' % channel_name)
 
 def main():
     home = os.path.expanduser("~")
@@ -187,9 +223,7 @@ def main():
         cmd_parser.set_defaults(_func=func)
 
     args = config.parse_known_args(parser, subparser=True)
-    # args.proposal_id = scheduling.get_current_proposal_id(argsargs)
 
-    # return
     try:
         # load args from default (config.py) if not changed
         args._func(args)
@@ -203,25 +237,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-    #     users = scheduling.get_current_users(args)
-    #     emails = scheduling.get_current_emails(args, users, exclude_pi=False)
-    #     emails.append(args.primary_beamline_contact_email)
-    #     emails.append(args.secondary_beamline_contact_email)
-    #     for email in emails:
-    #         args.pi_email = email
-    #         log.warning('Sharing %s%s with %s' % (args.globus_server_top_dir, new_dir, args.pi_email))
-    #         globus.share_globus_dir(args, ac, tc)
-    # else:
-    #     log.error("%s is not a supported globus server" % args.globus_server_name)
-
-    # def yes_or_no(question):
-    # answer = str(input(question + " (Y/N): ")).lower().strip()
-    # while not(answer == "y" or answer == "yes" or answer == "n" or answer == "no"):
-    #     log.warning("Input yes or no")
-    #     answer = str(input(question + "(Y/N): ")).lower().strip()
-    # if answer[0] == "y":
-    #     return True
-    # else:
-    #     return False

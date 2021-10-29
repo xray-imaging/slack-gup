@@ -243,6 +243,8 @@ add in your .bashrc::
     DM_BEAMLINE_NAME=20-BM-B
     export DM_BEAMLINE_NAME
 
+Replace DM_BEAMLINE_NAME with your beamline name as listed in the `APS beamline directory <https://www.aps.anl.gov/Beamlines/Directory>`_. 
+
 To test the access to the APS scheduling system::
 
     python -c "from dm.aps_db_web_service.api.esafApsDbApi import EsafApsDbApi; api = EsafApsDbApi();print(api.listEsafs(sector='20',     year=2021))"
