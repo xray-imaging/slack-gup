@@ -84,8 +84,8 @@ def create_channel_name(args):
         emails.append(args.secondary_beamline_contact_email)
         if (args.beamline == 'None'):
             channel_name = proposal_starting_date + '_' + proposal_pi + '_gup_' + proposal_id
-        else:
-            channel_name = args.beamline + '_' + proposal_starting_date + '_' + proposal_pi + '_gup_' + proposal_id
+        else: 
+            channel_name = args.beamline.replace('-', '_') + '_' + proposal_starting_date + '_' + proposal_pi + '_gup_' + proposal_id
     else:
         log.error("There is not a valid proposal on the selected date")
 
