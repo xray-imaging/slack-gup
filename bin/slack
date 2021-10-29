@@ -87,7 +87,7 @@ def create_channel_name(args):
         else:
             channel_name = args.beamline + '_' + proposal_starting_date + '_' + proposal_pi + '_gup_' + proposal_id
     else:
-        log.error("There is not a valid proposal in the selected date")
+        log.error("There is not a valid proposal on the selected date")
 
     return channel_name, emails
 
