@@ -1,6 +1,5 @@
 decorator
 pytz
-numpy
 pyepics
 python-dotenv
 slack-bolt

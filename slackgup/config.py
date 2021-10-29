@@ -3,7 +3,6 @@ import sys
 import pathlib
 import argparse
 import configparser
-import numpy as np
 from collections import OrderedDict
 from slackgup import log
 
@@ -27,6 +26,11 @@ SECTIONS['settings'] = {
         'type': float,
         'default': 0,
         'help': "Number of +/- number days for the current date. Used for setting a channel for past/future user groups"},
+    'beamline': {
+        'default': 'None',
+        'type': str,
+        'help': "How to get rotation axis: read from HDF5 ('read_auto', 'read_manual'), auto calculate ('auto'), or take from this file ('manual')",
+        'choices': ['None','2_bm', '7_bm', '8_id_i', '20_bm', '29_id', '32_id_b', '32_id_c']},
     }
 
 SECTIONS['contacts'] = {
