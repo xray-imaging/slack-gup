@@ -8,26 +8,9 @@ Creates slack channel using General User Proposal (GUP) number (GUP-#) and invit
 Usage
 =====
 
-To see the information of the currently running experiment
-::
 
-    $ slack show
-    2021-10-26 22:45:25,034 - GUP proposal_id: 73002
-    2021-10-26 22:45:25,230 - Added c.j.takacs@gmail.com to the e-mail list.
-    2021-10-26 22:45:25,230 - Added caochuntian@gmail.com to the e-mail list.
-    2021-10-26 22:45:25,230 - Added galluzzo.m@berkeley.edu to the e-mail list.
-    2021-10-26 22:45:25,230 - Added lgrundy@berkeley.edu to the e-mail list.
-    2021-10-26 22:45:25,230 - Added michael.toney@colorado.edu to the e-mail list.
-    2021-10-26 22:45:25,230 - Added nbalsara@cchem.berkeley.edu to the e-mail list.
-    2021-10-26 22:45:25,230 - Added hans.georg.steinrueck@uni-paderborn.de to the e-mail list.
-    2021-10-26 22:45:25,230 - General
-    2021-10-26 22:45:25,230 -   config           /home/beams/8IDIUSER/slack.conf
-    2021-10-26 22:45:25,230 -   verbose          True
-    2021-10-26 22:45:25,231 - Settings
-    2021-10-26 22:45:25,231 -   set              0.0
-    2021-10-26 22:45:25,231 - Beamline contacts
-    2021-10-26 22:45:25,231 -   primary_beamline_contact_email decarlo@anl.gov
-    2021-10-26 22:45:25,231 -   secondary_beamline_contact_email akastengren@anl.gov
+Create
+------
 
 To create a slack channel called 2021_10_26_steinrueck_gup_73002 and invite all users listed in the proposal
 
@@ -54,6 +37,10 @@ To create a slack channel called 2021_10_26_steinrueck_gup_73002 and invite all 
     2021-10-26 22:44:30,001 - Beamline contacts
     2021-10-26 22:44:30,001 -   primary_beamline_contact_email decarlo@anl.gov
     2021-10-26 22:44:30,001 -   secondary_beamline_contact_email akastengren@anl.gov
+
+
+Share
+-----
 
 To share the newly created slack channel with the user listed in the proposal:
 
@@ -89,6 +76,29 @@ Select **Your coworker** and select **Invite as guest** and get:
 
 Press **Send** and all users will be able to access as guest their gup proposal channel.
 
+Show
+----
+
+To see the information of the currently running experiment
+::
+
+    $ slack show
+    2021-10-26 22:45:25,034 - GUP proposal_id: 73002
+    2021-10-26 22:45:25,230 - Added c.j.takacs@gmail.com to the e-mail list.
+    2021-10-26 22:45:25,230 - Added caochuntian@gmail.com to the e-mail list.
+    2021-10-26 22:45:25,230 - Added galluzzo.m@berkeley.edu to the e-mail list.
+    2021-10-26 22:45:25,230 - Added lgrundy@berkeley.edu to the e-mail list.
+    2021-10-26 22:45:25,230 - Added michael.toney@colorado.edu to the e-mail list.
+    2021-10-26 22:45:25,230 - Added nbalsara@cchem.berkeley.edu to the e-mail list.
+    2021-10-26 22:45:25,230 - Added hans.georg.steinrueck@uni-paderborn.de to the e-mail list.
+    2021-10-26 22:45:25,230 - General
+    2021-10-26 22:45:25,230 -   config           /home/beams/8IDIUSER/slack.conf
+    2021-10-26 22:45:25,230 -   verbose          True
+    2021-10-26 22:45:25,231 - Settings
+    2021-10-26 22:45:25,231 -   set              0.0
+    2021-10-26 22:45:25,231 - Beamline contacts
+    2021-10-26 22:45:25,231 -   primary_beamline_contact_email decarlo@anl.gov
+    2021-10-26 22:45:25,231 -   secondary_beamline_contact_email akastengren@anl.gov
 
 
 To create a slack channel for a future/past user group and invite all users listed in the proposal, e.g 5 days in the future:
@@ -118,7 +128,10 @@ To create a slack channel for a future/past user group and invite all users list
     2021-10-26 22:47:23,657 -   secondary_beamline_contact_email akastengren@anl.gov
 
 
-for help::
+help
+----
+
+::
 
     slack -h
     usage: slack [-h] [--config FILE]  ...
