@@ -57,17 +57,39 @@ To create a slack channel called 2021_10_26_steinrueck_gup_73002 and invite all 
 
 To share the newly created slack channel with the user listed in the proposal:
 
-1. Select the newlly created channel: 
+1. Select the newlly created channel and select **Open channel details**: 
 
-.. image:: docs/source/img/add_people_0.png
+.. image:: docs/source/img/channel_add_users_01.png
     :width: 40%
     :align: center
 
-2. Share the channel with users listed in the proposal by copy/paste their email address in the invite box:
+select the **Members** tab and click **Add people**
 
-.. image:: docs/source/img/add_people_1.png
+.. image:: docs/source/img/channel_add_users_02.png
     :width: 40%
     :align: center
+
+and copy/paste the user's email address list provided by the above **slack gup** command:
+
+.. image:: docs/source/img/channel_add_users_03.png
+    :width: 40%
+    :align: center
+
+then press **Add** and you will get:
+
+.. image:: docs/source/img/channel_add_users_04.png
+    :width: 40%
+    :align: center
+
+Select **Your coworker** and select **Invite as guest** and get:
+
+.. image:: docs/source/img/channel_add_users_05.png
+    :width: 40%
+    :align: center
+
+Press **Send** and all users will be able to access as guest their gup proposal channel.
+
+
 
 To create a slack channel for a future/past user group and invite all users listed in the proposal, e.g 5 days in the future:
 
