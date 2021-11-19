@@ -128,7 +128,7 @@ To create a slack channel for a future/past user group and invite all users list
     2021-10-26 22:47:23,657 -   secondary_beamline_contact_email akastengren@anl.gov
 
 
-help
+Help
 ----
 
 ::
@@ -150,17 +150,21 @@ help
 ::
 
     slack gup -h
-    usage: slack gup [-h] [--set TESTING] [--primary-beamline-contact-email FILE] [--secondary-beamline-contact-email FILE]
-                     [--config FILE] [--verbose]
+    usage: slack gup [-h] [--beamline {None,2_bm,7_bm,8_id_i,20_bm,29_id,32_id_b,32_id_c}] [--set SET]
+                   [--primary-beamline-contact-email FILE] [--secondary-beamline-contact-email FILE] [--config FILE]
+                   [--verbose]
 
     optional arguments:
       -h, --help            show this help message and exit
-      --set SET             Number of +/- number days for the current date. Used for set (default: 0)
+      --beamline {None,2_bm,7_bm,8_id_i,20_bm,29_id,32_id_b,32_id_c}
+                            When set adds the beamline name as a prefix to the slack channel name (default: None)
+      --set SET             Number of +/- number days for the current date. Used for setting a channel for past/future user
+                            groups (default: 0)
       --primary-beamline-contact-email FILE
-                            Beamline scientist email (default: decarlo@anl.gov)
+                            Beamline scientist email (default: pshevchenko@anl.gov)
       --secondary-beamline-contact-email FILE
-                            Beamline scientist email (default: akastengren@anl.gov)
-      --config FILE         File name of configuration (default: /home/beams/USER2BMB/slack.conf)
+                            Beamline scientist email (default: decarlo@anl.gov)
+      --config FILE         File name of configuration (default: /home/beams/USERTXM/slack.conf)
       --verbose             Verbose output (default: True)
 
 Installation
