@@ -29,7 +29,7 @@ SECTIONS['settings'] = {
     'beamline': {
         'default': 'None',
         'type': str,
-        'help': "How to get rotation axis: read from HDF5 ('read_auto', 'read_manual'), auto calculate ('auto'), or take from this file ('manual')",
+        'help': "When set adds the beamline name as a prefix to the slack channel name",
         'choices': ['None','2-bm', '7-bm', '8-id', '20-bm', '29-id', '32-id']},
     }
 
