@@ -94,6 +94,7 @@ def create_channel_name(args):
 def slack_gup(args):
 
     channel_name, emails = create_channel_name(args)
+
     # Set bot tokens as environment values
     env_path = os.path.join(str(pathlib.Path.home()), '.slackenv')
     load_dotenv(dotenv_path=env_path)
@@ -107,7 +108,7 @@ def slack_gup(args):
             name=channel_name
         )
         log.warning('Created slack channel: %s' % result['channel']['name'])
-        log.warning("Please invite to the slack channel %s these users %s" % (channel_name, emails))
+        log.warning("Please invite to the slack channel %s these users [%s]" % (channel_name, ', '.join(map(str, emails))))
 
     except SlackApiError as e:
         log.error("Error creating conversation: {}".format(e))
