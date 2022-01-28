@@ -12,7 +12,7 @@ Usage
 Create
 ------
 
-To create a slack channel called 2021_10_26_steinrueck_gup_73002 and invite all users listed in the proposal
+To create a slack channel called 2_bm_2022_03_08_chardon_gup_74496 and invite all users listed in the proposal
 
 ::
 
@@ -40,7 +40,7 @@ To create a slack channel called 2021_10_26_steinrueck_gup_73002 and invite all 
     2022-01-28 11:37:39,162 -   verbose          True
     2022-01-28 11:37:39,162 - Settings
     2022-01-28 11:37:39,162 -   beamline         2-bm
-    2022-01-28 11:37:39,162 -   set              39.0
+    2022-01-28 11:37:39,162 -   set              0
     2022-01-28 11:37:39,162 - Beamline contacts
     2022-01-28 11:37:39,162 -   primary_beamline_contact_email pshevchenko@anl.gov
     2022-01-28 11:37:39,162 -   secondary_beamline_contact_email decarlo@anl.gov
