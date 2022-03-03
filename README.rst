@@ -34,7 +34,7 @@ To create a slack channel called 2_bm_2022_03_08_chardon_gup_74496 and invite al
     2022-01-28 11:37:38,736 - Added vdeandrade@aps.anl.gov to the e-mail list.
     2022-01-28 11:37:38,736 - Found valid emails
     2022-01-28 11:37:39,161 - Created slack channel: 2_bm_2022_03_08_chardon_gup_74496
-    2022-01-28 11:37:39,161 - Please invite to the slack channel 2_bm_2022_03_08_chardon_gup_74496 these users ['ywang11@calstatela.edu', 'mgarcia@anl.gov', 'ravescovi@gmail.com', 'vsampathkumar@anl.gov', 'm-chardon@northwestern.edu', 'pshevchenko@aps.anl.gov', 'vdeandrade@aps.anl.gov', 'pshevchenko@anl.gov', 'decarlo@anl.gov']
+    2022-01-28 11:37:39,161 - Please invite to the slack channel 2_bm_2022_03_08_chardon_gup_74496 these users [ywang11@calstatela.edu, mgarcia@anl.gov, ravescovi@gmail.com, vsampathkumar@anl.gov, m-chardon@northwestern.edu, pshevchenko@aps.anl.gov, vdeandrade@aps.anl.gov, pshevchenko@anl.gov, decarlo@anl.gov]
     2022-01-28 11:37:39,162 - General
     2022-01-28 11:37:39,162 -   config           /home/beams/USER2BMB/slack.conf
     2022-01-28 11:37:39,162 -   verbose          True
