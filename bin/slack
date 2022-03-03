@@ -108,10 +108,11 @@ def slack_gup(args):
             name=channel_name
         )
         log.warning('Created slack channel: %s' % result['channel']['name'])
-        log.warning("Please invite to the slack channel %s these users [%s]" % (channel_name, ', '.join(map(str, emails))))
+        log.warning("Please invite to the slack channel %s these users [%s]" % (channel_name, ', '.join(map(str, emails)).strip("'")))
 
     except SlackApiError as e:
         log.error("Error creating conversation: {}".format(e))
+        log.error('Channel [%s] already exists' % channel_name)
 
     
     # WARNING: options below are only for Business+ and above. 
