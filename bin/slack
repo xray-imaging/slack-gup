@@ -80,8 +80,10 @@ def create_channel_name(args):
         proposal_pi = scheduling.get_current_pi(args)['lastName'].lower()
         log.info('Proposal PI: %s' % proposal_pi)
         emails = scheduling.get_current_emails(args, exclude_pi=False)
-        emails.append(args.primary_beamline_contact_email)
-        emails.append(args.secondary_beamline_contact_email)
+        if args.primary_beamline_contact_email != "Empty"
+            emails.append(args.primary_beamline_contact_email)
+        if args.secondary_beamline_contact_email != "Empty"
+            emails.append(args.secondary_beamline_contact_email)
         if (args.beamline == 'None'):
             channel_name = proposal_starting_date + '_' + proposal_pi + '_gup_' + proposal_id
         else: 
@@ -113,6 +115,7 @@ def slack_gup(args):
     except SlackApiError as e:
         log.error("Error creating conversation: {}".format(e))
         log.error('Channel [%s] already exists' % channel_name)
+        log.warning("If you have not already done so, please invite to the slack channel %s these users [%s]" % (channel_name, ', '.join(map(str, emails)).strip("'")))
 
     
     # WARNING: options below are only for Business+ and above. 
