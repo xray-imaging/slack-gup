@@ -35,12 +35,12 @@ SECTIONS['settings'] = {
 
 SECTIONS['contacts'] = {
     'primary-beamline-contact-email': {
-        'default': 'pshevchenko@anl.gov',
+        'default': 'Empty',
         'type': str,
         'help': "Beamline scientist email",
         'metavar': 'FILE'},
     'secondary-beamline-contact-email': {
-        'default': 'decarlo@anl.gov',
+        'default': 'Empty',
         'type': str,
         'help': "Beamline scientist email",
         'metavar': 'FILE'},
