@@ -68,6 +68,9 @@ def init(args):
     else:
         raise RuntimeError("{0} already exists".format(args.config))
 
+def status(args):
+    config.show_config(args)
+
 def create_channel_name(args):
 
     channel_name = None
@@ -194,7 +197,7 @@ def slack_gup(args):
 
 def show(args):
     channel_name, emails = create_channel_name(args)
-    log.warning('To create %s run slack gup.' % channel_name)
+    log.warning('Run ** slack gup ** to create %s.' % channel_name)
 
 def main():
     home = os.path.expanduser("~")
@@ -215,6 +218,7 @@ def main():
 
     cmd_parsers = [
         ('init',        init,           (),                "Create configuration file"),
+        ('status',      status,         show_params,       "Show slack status"),
         ('show',        show,           show_params,       "Show user and experiment info from the APS schedule"),
         ('gup',         slack_gup,      slack_params,      "Create a slack channel using called YYYY_MM_DD_PI-last-name_gup_##### and share it with all users listed in the proposal"),
     ]
@@ -232,7 +236,7 @@ def main():
     try:
         # load args from default (config.py) if not changed
         args._func(args)
-        config.log_values(args)
+        # config.show_config(args)
         # undate globus.config file
         sections = config.SLACKGUP_PARAMS
         config.write(args.config, args=args, sections=sections)

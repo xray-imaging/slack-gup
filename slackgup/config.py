@@ -162,8 +162,7 @@ def write(config_file, args=None, sections=None):
     with open(config_file, 'w') as f:
         config.write(f)
 
-
-def log_values(args):
+def show_config(args):
     """Log all values set in the args namespace.
 
     Arguments are grouped according to their section and logged alphabetically
@@ -171,13 +170,12 @@ def log_values(args):
     """
     args = args.__dict__
 
+    log.warning('slack status start')
     for section, name in zip(SECTIONS, NICE_NAMES):
         entries = sorted((k for k in args.keys() if k.replace('_', '-') in SECTIONS[section]))
-
         if entries:
-            log.info(name)
-
             for entry in entries:
-                value = args[entry] if args[entry] is not None else "-"
+                value = args[entry] if args[entry] != None else "-"
                 log.info("  {:<16} {}".format(entry, value))
 
+    log.warning('slack status end')
