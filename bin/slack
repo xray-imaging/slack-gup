@@ -80,9 +80,9 @@ def create_channel_name(args):
         proposal_pi = scheduling.get_current_pi(args)['lastName'].lower()
         log.info('Proposal PI: %s' % proposal_pi)
         emails = scheduling.get_current_emails(args, exclude_pi=False)
-        if args.primary_beamline_contact_email != "Empty"
+        if args.primary_beamline_contact_email != "Empty":
             emails.append(args.primary_beamline_contact_email)
-        if args.secondary_beamline_contact_email != "Empty"
+        if args.secondary_beamline_contact_email != "Empty":
             emails.append(args.secondary_beamline_contact_email)
         if (args.beamline == 'None'):
             channel_name = proposal_starting_date + '_' + proposal_pi + '_gup_' + proposal_id
